@@ -1,0 +1,179 @@
+
+1.CMD SQL - go to bin C:\Windows\System32\cmd.exe
+
+2.Type Below command and user name and password to login in sql 
+>mysql -u root -p  
+
+3.Type below command to seen all databases and end command with ";"
+mysql> show databases;
+
+4.Create database
+mysql> create database MySales;
+
+5.Use your database
+mysql> use mysales;
+
+6.View tables in databse
+mysql> show tables;
+
+ACID Properties 
+
+	A transaction is a very small unit of a program and it may contain several lowlevel tasks. A transaction in a database system must maintain Atomicity, Consistency, Isolation, and Durability − commonly known as ACID properties − in order to ensure accuracy, completeness, and data integrity.
+
+- Atomicity − This property states that a transaction must be treated as an atomic unit, that is, either all of its operations are executed or none. There must be no state in a database where a transaction is left partially completed. States should be defined either before the execution of the transaction or after the execution/abortion/failure of the transaction. (A for Automicity and A for All or nothing)
+- Consistency − The database must remain in a consistent state after any transaction. No transaction should have any adverse effect on the data residing in the database. If the database was in a consistent state before the execution of a transaction, it must remain consistent after the execution of the transaction as well.
+- (C-Consistency  -Valid Data)
+- Durability − The database should be durable enough to hold all its latest updates even if the system fails or restarts. If a transaction updates a chunk of data in a database and commits, then the database will hold the modified data. If a transaction commits but the system fails before the data could be written on to the disk, then that data will be updated once the system springs back into action.
+- Isolation − In a database system where more than one transaction are being executed simultaneously and in parallel, the property of isolation states that all the transactions will be carried out and executed as if it is the only transaction in the system. No transaction will affect the existence of any other transaction.
+
+img : https://www.tutorialspoint.com/dbms/images/transaction_states.png
+
+
+States of Transactions:
+   A transaction in a database can be in one of the following states −
+Active − In this state, the transaction is being executed. This is the initial state of every transaction.
+
+Partially Committed − When a transaction executes its final operation, it is said to be in a partially committed state.
+
+Failed − A transaction is said to be in a failed state if any of the checks made by the database recovery system fails. A failed transaction can no longer proceed further.
+
+Aborted − If any of the checks fails and the transaction has reached a failed state, then the recovery manager rolls back all its write operations on the database to bring the database back to its original state where it was prior to the execution of the transaction. Transactions in this state are called aborted. The database recovery module can select one of the two operations after a transaction aborts −
+
+Re-start the transaction
+Kill the transaction
+Committed − If a transaction executes all its operations successfully, it is said to be committed. All its effects are now permanently established on the database system.
+
+```
+link : https://www.tutorialspoint.com/dbms/dbms_concurrency_control.htm
+```
+
+OLTP - Online Transaction Protocol (RDBMS)
+OLAP - Online Analytics Processes 
+
+Transaction - A transaction is a action or series of action which reads and update content of databases.
+It maintain data in the case of concurrent access and system failures.
+Allow Safe sharing of data.
+Ensure the accuracy ,completeness and data integrity.
+
+
+7. Create table with schema
+mysql> create table Customers(CustID int,
+    -> FirstName varchar(255),
+    -> LastName varchar(255),
+    -> City varchar(255));
+
+
+8. Describe table
+mysql> describe customers;
++-----------+--------------+------+-----+---------+-------+   
+| Field     | Type         | Null | Key | Default | Extra |  
++-----------+--------------+------+-----+---------+-------+   
+| CustID    | int(11)      | YES  |     | NULL    |       |  
+| FirstName | varchar(255) | YES  |     | NULL    |       | 
+| LastName  | varchar(255) | YES  |     | NULL    |       | 
+| City      | varchar(255) | YES  |     | NULL    |       | 
++-----------+--------------+------+-----+---------+-------+  
+4 rows in set (0.09 sec)
+
+ 
+9. Drop table
+mysql> drop table Customers;
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> show tables;
+Empty set (0.00 sec)
+
+
+10. Again Create table with Primary Key
+mysql> create table Customers(
+    -> CustID int NOT NULL UNIQUE,
+    -> Firstname varchar(255),
+    -> LastName varchar(255) NOT NULL,
+    -> City varchar(255),
+    -> PRIMARY KEY (CustID));
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> describe Customers;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| CustID    | int(11)      | NO   | PRI |         |       |
+| FirstName | varchar(255) | YES  |     | NULL    |       |
+| LastName  | varchar(255) | NO   |     |         |       |
+| City      | varchar(255) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.06 sec)
+
+
+11.UpDATE TABLE AFTER CREATED
+>>>>
+mysql> alter table Customers add Phone int;
+Query OK, 0 rows affected (0.21 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe Customers;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| CustID    | int(11)      | NO   | PRI |         |       |
+| FirstName | varchar(255) | YES  |     | NULL    |       |
+| LastName  | varchar(255) | NO   |     |         |       |
+| City      | varchar(255) | YES  |     | NULL    |       |
+| Phone     | int(11)      | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+12. Foreign Key
+>>>>
+mysql> create table Orders(
+    -> OrderID int NOT NULL UNIQUE,
+    -> CustID int,
+    -> OrderDate date,
+    -> BillAmt int,
+    -> PRIMARY KEY (OrderID),
+    -> FOREIGN KEY (CustID) REFERENCES Customers(CustID));
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> describe Orders;
++-----------+---------+------+-----+---------+-------+
+| Field     | Type    | Null | Key | Default | Extra |
++-----------+---------+------+-----+---------+-------+
+| OrderID   | int(11) | NO   | PRI |         |       |
+| CustID    | int(11) | YES  | MUL | NULL    |       |
+| OrderDate | date    | YES  |     | NULL    |       |
+| BillAmt   | int(11) | YES  |     | NULL    |       |
++-----------+---------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+13.Create another table with only foreign key
+>>>>
+mysql> create table OrderDetails(
+    -> OrderID int NOT NULL,
+    -> ProductID int NOT NULL,
+    -> Qty int,
+    -> Check (Qty >0),
+    -> FOREIGN KEY (OrderID) REFERENCES Orders(OrderID));
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> describe OrderDetails;
++-----------+---------+------+-----+---------+-------+
+| Field     | Type    | Null | Key | Default | Extra |
++-----------+---------+------+-----+---------+-------+
+| OrderID   | int(11) | NO   | MUL |         |       |
+| ProductID | int(11) | NO   |     |         |       |
+| Qty       | int(11) | YES  |     | NULL    |       |
++-----------+---------+------+-----+---------+-------+
+3 rows in set (0.07 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_mysales |
++-------------------+
+| customers         |
+| orderdetails      |
+| orders            |
++-------------------+
+3 rows in set (0.00 sec)
+
+
+
