@@ -175,5 +175,51 @@ mysql> show tables;
 +-------------------+
 3 rows in set (0.00 sec)
 
+14.Select Query Introduced
+mysql> select * from orderdetails;
++---------+-----------+------+
+| OrderID | ProductID | Qty  |
++---------+-----------+------+
+|       1 |       234 |   12 |
+|       2 |       342 |   10 |
+|       3 |       532 |    5 |
+|       4 |       634 |  120 |
+|       5 |       563 |  100 |
++---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select FIRSTNAME,City from customers;
++---------------+---------+
+| FIRSTNAME     | City    |
++---------------+---------+
+| NULL          | NULL    |
+| Narendra      | Barmer  |
++---------------+---------+
+
+mysql> select city from customers;
++---------+
+| city    |
++---------+
+| NULL    |
+| Barmer  |
+| Barmer  |
+| Barmer  |
+| Barmer  |
+| Barmer  |
+| Udaipur |
+| barmer  |
+| Pune    |
++---------+
+9 rows in set (0.00 sec)
+
+
+15.insert Into Command 
+mysql> insert into customers values(9,"Mag Singh","Booth","Barmer",983838383);
+Query OK, 1 row affected (0.07 sec)
+
+16.Foreign key constraint violation
+mysql> insert into orders values(6,12,"2020-01-22",2400);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`mysales/orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`CustID`) REFERENCES `customers` (`CustID`))
+
 
 
