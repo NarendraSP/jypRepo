@@ -221,5 +221,151 @@ Query OK, 1 row affected (0.07 sec)
 mysql> insert into orders values(6,12,"2020-01-22",2400);
 ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`mysales/orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`CustID`) REFERENCES `customers` (`CustID`))
 
+17.Use of Distinct, Count, Sum, Avg,limit==>
+mysql> select city from customers;
++---------+
+| city    |
++---------+
+| NULL    |
+| Barmer  |
+| Barmer  |
+| Barmer  |
+| Barmer  |
+| Barmer  |
+| Udaipur |
+| barmer  |
+| Pune    |
+| Barmer  |
++---------+
+10 rows in set (0.00 sec)
+
+mysql> select distinct city from customers;
++---------+
+| city    |
++---------+
+| NULL    |
+| Barmer  |
+| Udaipur |
+| Pune    |
++---------+
+4 rows in set (0.05 sec)
+
+mysql> select count(distinct city) from customers;
++----------------------+
+| count(distinct city) |
++----------------------+
+|                    3 |
++----------------------+
+1 row in set (0.03 sec)
+
+
+mysql> select count(ProductID) from OrderDetails;
++------------------+
+| count(ProductID) |
++------------------+
+|                5 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(BillAmt) from orders;
++--------------+
+| avg(BillAmt) |
++--------------+
+|    4000.0000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(Qty) from  orderdetails;
++----------+
+| sum(Qty) |
++----------+
+|      247 |
++----------+
+1 row in set (0.00 sec)
+
+
+mysql> select * from customers limit 3;
++--------+-----------+----------+--------+------------+
+| CustID | FirstName | LastName | City   | Phone      |
++--------+-----------+----------+--------+------------+
+|      0 | NULL      |          | NULL   |       NULL |
+|      1 | Narendra  | Singh    | Barmer | 2147483647 |
+|      2 | Tejaswi   | Kanwar   | Barmer | 2147483647 |
++--------+-----------+----------+--------+------------+
+3 rows in set (0.00 sec)
+
+
+18.using Like and WildCards
+mysql> select * from customers where FirstName LIKE '%a';
++--------+-----------+----------+--------+------------+
+| CustID | FirstName | LastName | City   | Phone      |
++--------+-----------+----------+--------+------------+
+|      1 | Narendra  | Singh    | Barmer | 2147483647 |
+|      3 | Surendra  | Singh    | Barmer | 2147483647 |
++--------+-----------+----------+--------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customers where FirstName LIKE 'a%';
++--------+-----------+----------+--------+-------+
+| CustID | FirstName | LastName | City   | Phone |
++--------+-----------+----------+--------+-------+
+|      7 | Aayuwan   | Singh    | barmer |  NULL |
++--------+-----------+----------+--------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from customers where FirstName LIKE '%J%';
++--------+--------------+----------+---------+------------+
+| CustID | FirstName    | LastName | City    | Phone      |
++--------+--------------+----------+---------+------------+
+|      2 | Tejas        | Sundar   | jaipur  | 2147483647 |
+|      6 | Jaypal       | Dhira    | Udaipur | 2147483647 |
++--------+--------------+----------+---------+------------+
+2 rows in set (0.00 sec)
+
+ 
+mysql> select * from customers where FirstName LIKE 'N%a';
++--------+-----------+----------+--------+------------+
+| CustID | FirstName | LastName | City   | Phone      |
++--------+-----------+----------+--------+------------+
+|      1 | Narendra  | Singh    | Barmer | 2147483647 |
++--------+-----------+----------+--------+------------+
+1 row in set (0.00 sec)
+
+
+mysql> select City,Phone from customers where City NOT LIKE '%a';
++---------+------------+
+| City    | Phone      |
++---------+------------+
+| Barmer  | 2147483647 |
+| Barmer  | 2147483647 |
+| Barmer  | 2147483647 |
+| Barmer  |       NULL |
+| Barmer  | 2147483647 |
+| Udaipur | 2147483647 |
+| barmer  |       NULL |
+| Pune    | 2147483647 |
+| Barmer  |  983838383 |
++---------+------------+
+9 rows in set (0.00 sec)
+
+
+mysql> select City,Phone from customers where Phone NOT LIKE 'N%';
++---------+------------+
+| City    | Phone      |
++---------+------------+
+| Barmer  | 2147483647 |
+| Barmer  | 2147483647 |
+| Barmer  | 2147483647 |
+| Barmer  | 2147483647 |
+| Udaipur | 2147483647 |
+| Pune    | 2147483647 |
+| Barmer  |  983838383 |
++---------+------------+
+7 rows in set (0.00 sec)
+
+
+
+
+
 
 
