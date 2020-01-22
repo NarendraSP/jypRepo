@@ -1,21 +1,21 @@
 
 1.CMD SQL - go to bin C:\Windows\System32\cmd.exe
-
+============================================================================================================================
 2.Type Below command and user name and password to login in sql 
 >mysql -u root -p  
-
+============================================================================================================================
 3.Type below command to seen all databases and end command with ";"
 mysql> show databases;
-
+============================================================================================================================
 4.Create database
 mysql> create database MySales;
-
+============================================================================================================================
 5.Use your database
 mysql> use mysales;
-
+============================================================================================================================
 6.View tables in databse
 mysql> show tables;
-
+============================================================================================================================
 ACID Properties 
 
 	A transaction is a very small unit of a program and it may contain several lowlevel tasks. A transaction in a database system must maintain Atomicity, Consistency, Isolation, and Durability − commonly known as ACID properties − in order to ensure accuracy, completeness, and data integrity.
@@ -54,14 +54,14 @@ Transaction - A transaction is a action or series of action which reads and upda
 It maintain data in the case of concurrent access and system failures.
 Allow Safe sharing of data.
 Ensure the accuracy ,completeness and data integrity.
-
+============================================================================================================================
 
 7. Create table with schema
 mysql> create table Customers(CustID int,
     -> FirstName varchar(255),
     -> LastName varchar(255),
     -> City varchar(255));
-
+============================================================================================================================
 
 8. Describe table
 mysql> describe customers;
@@ -75,7 +75,7 @@ mysql> describe customers;
 +-----------+--------------+------+-----+---------+-------+  
 4 rows in set (0.09 sec)
 
- 
+============================================================================================================================
 9. Drop table
 mysql> drop table Customers;
 Query OK, 0 rows affected (0.08 sec)
@@ -83,7 +83,7 @@ Query OK, 0 rows affected (0.08 sec)
 mysql> show tables;
 Empty set (0.00 sec)
 
-
+============================================================================================================================
 10. Again Create table with Primary Key
 mysql> create table Customers(
     -> CustID int NOT NULL UNIQUE,
@@ -103,7 +103,7 @@ mysql> describe Customers;
 | City      | varchar(255) | YES  |     | NULL    |       |
 +-----------+--------------+------+-----+---------+-------+
 4 rows in set (0.06 sec)
-
+==================================================================================================================
 
 11.UpDATE TABLE AFTER CREATED
 >>>>
@@ -122,6 +122,8 @@ mysql> describe Customers;
 | Phone     | int(11)      | YES  |     | NULL    |       |
 +-----------+--------------+------+-----+---------+-------+
 5 rows in set (0.01 sec)
+
+============================================================================================================================
 
 12. Foreign Key
 >>>>
@@ -144,6 +146,7 @@ mysql> describe Orders;
 | BillAmt   | int(11) | YES  |     | NULL    |       |
 +-----------+---------+------+-----+---------+-------+
 4 rows in set (0.01 sec)
+============================================================================================================================
 
 13.Create another table with only foreign key
 >>>>
@@ -174,6 +177,7 @@ mysql> show tables;
 | orders            |
 +-------------------+
 3 rows in set (0.00 sec)
+============================================================================================================================
 
 14.Select Query Introduced
 mysql> select * from orderdetails;
@@ -211,15 +215,17 @@ mysql> select city from customers;
 | Pune    |
 +---------+
 9 rows in set (0.00 sec)
-
+============================================================================================================================
 
 15.insert Into Command 
 mysql> insert into customers values(9,"Mag Singh","Booth","Barmer",983838383);
 Query OK, 1 row affected (0.07 sec)
-
+============================================================================================================================
 16.Foreign key constraint violation
 mysql> insert into orders values(6,12,"2020-01-22",2400);
 ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`mysales/orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`CustID`) REFERENCES `customers` (`CustID`))
+
+============================================================================================================================
 
 17.Use of Distinct, Count, Sum, Avg,limit==>
 mysql> select city from customers;
@@ -294,6 +300,7 @@ mysql> select * from customers limit 3;
 +--------+-----------+----------+--------+------------+
 3 rows in set (0.00 sec)
 
+============================================================================================================================
 
 18.using Like and WildCards
 mysql> select * from customers where FirstName LIKE '%a';
@@ -362,6 +369,356 @@ mysql> select City,Phone from customers where Phone NOT LIKE 'N%';
 | Barmer  |  983838383 |
 +---------+------------+
 7 rows in set (0.00 sec)
+
+
+mysql> select * from customers where FirstName LIKE '__r%';
++--------+-----------+----------+--------+------------+
+| CustID | FirstName | LastName | City   | Phone      |
++--------+-----------+----------+--------+------------+
+|      1 | Narendra  | Singh    | Barmer | 2147483647 |
++--------+-----------+----------+--------+------------+
+1 row in set (0.00 sec)
+
+
+============================================================================================================================
+
+
+19.using Where key 
+mysql> select * from customers where city='udaipur';
++--------+--------------+----------+---------+------------+
+| CustID | FirstName    | LastName | City    | Phone      |
++--------+--------------+----------+---------+------------+
+|      6 | Jaypal Singh | Dhandhu  | Udaipur | 2147483647 |
++--------+--------------+----------+---------+------------+
+1 row in set (0.00 sec)
+
+
+mysql> select * from customers where custid=2;
++--------+-----------+----------+--------+------------+
+| CustID | FirstName | LastName | City   | Phone      |
++--------+-----------+----------+--------+------------+
+|      2 | Surendra  | Singh    | Barmer | 2147483647 |
++--------+-----------+----------+--------+------------+
+1 row in set (0.00 sec)
+
+
+mysql> select * from orders where billamt > 5000;
++---------+--------+------------+---------+
+| OrderID | CustID | OrderDate  | BillAmt |
++---------+--------+------------+---------+
+|       5 |      5 | 2020-01-23 |    6000 |
++---------+--------+------------+---------+
+1 row in set (0.00 sec)
+
+
+mysql> select * from orders where billamt BETWEEN 2000 and 3000;
++---------+--------+------------+---------+
+| OrderID | CustID | OrderDate  | BillAmt |
++---------+--------+------------+---------+
+|       1 |      1 | 2019-12-22 |    2000 |
+|       2 |      2 | 2020-01-20 |    3000 |
++---------+--------+------------+---------+
+2 rows in set (0.07 sec)
+
+
+mysql> select * from customers where city in('barmer','jaisalmer');
++--------+-----------+----------+-----------+------------+
+| CustID | FirstName | LastName | City      | Phone      |
++--------+-----------+----------+-----------+------------+
+|      1 | Narendra  | Singh    | Barmer    | 2147483647 |
+|      2 | Surendra  | Singh    | Barmer    | 2147483647 |
+|      3 | Tejendra  | Singh    | Barmer    | 2147483647 |
+|      4 | Ravi      | Singh    | Barmer    |   89897656 |
+|      5 | Hari      | Singh    | Jaisalmer | 2147483647 |
+|      7 | Aayuwan   | Singh    | barmer    |       NULL |
+|      9 | Mag Singh | Booth    | Barmer    |  983838383 |
++--------+-----------+----------+-----------+------------+
+7 rows in set (0.00 sec)
+
+
+mysql> select * from customers where city NOT in('barmer','jaisalmer');
++--------+---------------+----------+---------+------------+
+| CustID | FirstName     | LastName | City    | Phone      |
++--------+---------------+----------+---------+------------+
+|      6 | Jaypal Singh  | Dhandhu  | Udaipur | 2147483647 |
+|      8 | Sharwan Singh | D        | Pune    | 2147483647 |
+|     10 | Hemant        | Kumar    | Jaipur  |  876897698 |
+|     11 | Karmveer      | D        | Jaipur  |   67757465 |
+|     12 | Yash          | Veer     | Bikaner |    6576575 |
+|     13 | Veer          | Y        | Kota    |    6755665 |
++--------+---------------+----------+---------+------------+
+6 rows in set (0.00 sec)
+
+============================================================================================================================
+
+20.Using Operator in Query
+mysql> select * from customers where city="Jaipur" or city="Kota";
++--------+-----------+----------+--------+-----------+
+| CustID | FirstName | LastName | City   | Phone     |
++--------+-----------+----------+--------+-----------+
+|     10 | Hemant    | Kumar    | Jaipur | 876897698 |
+|     11 | Karmveer  | D        | Jaipur |  67757465 |
+|     13 | Veer      | Y        | Kota   |   6755665 |
++--------+-----------+----------+--------+-----------+
+
+
+mysql> select * from customers where city='mumbai' or city='pune';
++--------+---------------+----------+--------+------------+
+| CustID | FirstName     | LastName | City   | Phone      |
++--------+---------------+----------+--------+------------+
+|      8 | Sharwan Singh | D        | Pune   | 2147483647 |
+|     14 | Manendra      | S        | Pune   |    7868976 |
+|     15 | Khangar       | Singh    | Pune   |     785876 |
+|     16 | Rajendra      | Singh    | Mumbai |     786876 |
++--------+---------------+----------+--------+------------+
+4 rows in set (0.00 sec)
+
+
+
+mysql> select * from customers where not  city='mumbai';
++--------+---------------+----------+-----------+------------+
+| CustID | FirstName     | LastName | City      | Phone      |
++--------+---------------+----------+-----------+------------+
+|      1 | Narendra      | Singh    | Barmer    | 2147483647 |
+|      2 | Surendra      | Singh    | Barmer    | 2147483647 |
+|      3 | Tejendra      | Singh    | Barmer    | 2147483647 |
+|      4 | Ravi          | Singh    | Barmer    |   89897656 |
+|      5 | Hari          | Singh    | Jaisalmer | 2147483647 |
+|      6 | Jaypal Singh  | Dhandhu  | Udaipur   | 2147483647 |
+|      7 | Aayuwan       | Singh    | barmer    |       NULL |
+|      8 | Sharwan Singh | D        | Pune      | 2147483647 |
+|      9 | Mag Singh     | Booth    | Barmer    |  983838383 |
+|     10 | Hemant        | Kumar    | Jaipur    |  876897698 |
+|     11 | Karmveer      | D        | Jaipur    |   67757465 |
+|     12 | Yash          | Veer     | Bikaner   |    6576575 |
+|     13 | Veer          | Y        | Kota      |    6755665 |
+|     14 | Manendra      | S        | Pune      |    7868976 |
+|     15 | Khangar       | Singh    | Pune      |     785876 |
+|     17 | Deependra     | Jhala    | Banswada  |     967764 |
+|     18 | Jitendra      | P        | Jaipur    |     675877 |
+|     19 | Bhupendra     | T        | Jaipur    |    9866757 |
+|     20 | Manjeet       | S        | Delhi     |      67587 |
++--------+---------------+----------+-----------+------------+
+19 rows in set (0.00 sec)
+
+
+mysql> select * from orders where  orderdate='2020-01-21' and billamt >2000;
++---------+--------+------------+---------+
+| OrderID | CustID | OrderDate  | BillAmt |
++---------+--------+------------+---------+
+|       3 |      3 | 2020-01-21 |    4000 |
++---------+--------+------------+---------+
+1 row in set (0.07 sec)
+
+============================================================================================================================
+
+21.using Order By in Query (Use only needed as it slow down execution)
+mysql> select * from customers order by city;
++--------+---------------+----------+-----------+------------+
+| CustID | FirstName     | LastName | City      | Phone      |
++--------+---------------+----------+-----------+------------+
+|      0 | NULL          |          | NULL      |       NULL |
+|     17 | Deependra     | Jhala    | Banswada  |     967764 |
+|      1 | Narendra      | Singh    | Barmer    | 2147483647 |
+|      2 | Surendra      | Singh    | Barmer    | 2147483647 |
+|      3 | Tejendra      | Singh    | Barmer    | 2147483647 |
+|      4 | Ravi          | Singh    | Barmer    |   89897656 |
+|      7 | Aayuwan       | Singh    | barmer    |       NULL |
+|      9 | Mag Singh     | Booth    | Barmer    |  983838383 |
+|     12 | Yash          | Veer     | Bikaner   |    6576575 |
+|     20 | Manjeet       | S        | Delhi     |      67587 |
+|     10 | Hemant        | Kumar    | Jaipur    |  876897698 |
+|     11 | Karmveer      | D        | Jaipur    |   67757465 |
+|     18 | Jitendra      | P        | Jaipur    |     675877 |
+|     19 | Bhupendra     | T        | Jaipur    |    9866757 |
+|      5 | Hari          | Singh    | Jaisalmer | 2147483647 |
+|     13 | Veer          | Y        | Kota      |    6755665 |
+|     16 | Rajendra      | Singh    | Mumbai    |     786876 |
+|      8 | Sharwan Singh | D        | Pune      | 2147483647 |
+|     14 | Manendra      | S        | Pune      |    7868976 |
+|     15 | Khangar       | Singh    | Pune      |     785876 |
+|      6 | Jaypal Singh  | Dhandhu  | Udaipur   | 2147483647 |
++--------+---------------+----------+-----------+------------+
+21 rows in set (0.04 sec)
+
+
+mysql> select * from customers order by city desc;
++--------+---------------+----------+-----------+------------+
+| CustID | FirstName     | LastName | City      | Phone      |
++--------+---------------+----------+-----------+------------+
+|      6 | Jaypal Singh  | Dhandhu  | Udaipur   | 2147483647 |
+|      8 | Sharwan Singh | D        | Pune      | 2147483647 |
+|     14 | Manendra      | S        | Pune      |    7868976 |
+|     15 | Khangar       | Singh    | Pune      |     785876 |
+|     16 | Rajendra      | Singh    | Mumbai    |     786876 |
+|     13 | Veer          | Y        | Kota      |    6755665 |
+|      5 | Hari          | Singh    | Jaisalmer | 2147483647 |
+|     10 | Hemant        | Kumar    | Jaipur    |  876897698 |
+|     11 | Karmveer      | D        | Jaipur    |   67757465 |
+|     18 | Jitendra      | P        | Jaipur    |     675877 |
+|     19 | Bhupendra     | T        | Jaipur    |    9866757 |
+|     20 | Manjeet       | S        | Delhi     |      67587 |
+|     12 | Yash          | Veer     | Bikaner   |    6576575 |
+|      1 | Narendra      | Singh    | Barmer    | 2147483647 |
+|      2 | Surendra      | Singh    | Barmer    | 2147483647 |
+|      3 | Tejendra      | Singh    | Barmer    | 2147483647 |
+|      4 | Ravi          | Singh    | Barmer    |   89897656 |
+|      7 | Aayuwan       | Singh    | barmer    |       NULL |
+|      9 | Mag Singh     | Booth    | Barmer    |  983838383 |
+|     17 | Deependra     | Jhala    | Banswada  |     967764 |
+|      0 | NULL          |          | NULL      |       NULL |
++--------+---------------+----------+-----------+------------+
+21 rows in set (0.00 sec)
+
+
+mysql> select * from orders order by billamt;
++---------+--------+------------+---------+
+| OrderID | CustID | OrderDate  | BillAmt |
++---------+--------+------------+---------+
+|       1 |      1 | 2019-12-22 |    2000 |
+|       2 |      2 | 2020-01-20 |    3000 |
+|       3 |      3 | 2020-01-21 |    4000 |
+|       4 |      4 | 2020-01-22 |    5000 |
+|       5 |      5 | 2020-01-23 |    6000 |
++---------+--------+------------+---------+
+5 rows in set (0.00 sec)
+
+
+mysql> select * from orders order by billamt desc;
++---------+--------+------------+---------+
+| OrderID | CustID | OrderDate  | BillAmt |
++---------+--------+------------+---------+
+|       5 |      5 | 2020-01-23 |    6000 |
+|       4 |      4 | 2020-01-22 |    5000 |
+|       3 |      3 | 2020-01-21 |    4000 |
+|       2 |      2 | 2020-01-20 |    3000 |
+|       1 |      1 | 2019-12-22 |    2000 |
++---------+--------+------------+---------+
+5 rows in set (0.00 sec)
+
+============================================================================================================================
+
+22.using Group By in Query 
+mysql> select count(distinct city) from customers;
++----------------------+
+| count(distinct city) |
++----------------------+
+|                   10 |
++----------------------+
+1 row in set (0.00 sec)
+
+
+mysql> select count(custid),city from customers Group By city ORDER By count(custid) desc;
++---------------+-----------+
+| count(custid) | city      |
++---------------+-----------+
+|             6 | Barmer    |
+|             4 | Jaipur    |
+|             3 | Pune      |
+|             1 | Bikaner   |
+|             1 | Kota      |
+|             1 | Mumbai    |
+|             1 | Banswada  |
+|             1 | Delhi     |
+|             1 | NULL      |
+|             1 | Jaisalmer |
+|             1 | Udaipur   |
++---------------+-----------+
+11 rows in set (0.02 sec)
+
+
+mysql> select count(custid),orderdate,billamt from orders
+    -> where billamt >3000
+    -> group by orderdate
+    -> order by count(custid) desc;
++---------------+------------+---------+
+| count(custid) | orderdate  | billamt |
++---------------+------------+---------+
+|             1 | 2020-01-21 |    4000 |
+|             1 | 2020-01-22 |    5000 |
+|             1 | 2020-01-23 |    6000 |
++---------------+------------+---------+
+3 rows in set (0.01 sec)
+
+
+mysql> select count(custid),orderdate,billamt from orders
+    -> where billamt >3000
+    -> group by orderdate
+    -> order by billamt desc;
++---------------+------------+---------+
+| count(custid) | orderdate  | billamt |
++---------------+------------+---------+
+|             1 | 2020-01-23 |    6000 |
+|             1 | 2020-01-22 |    5000 |
+|             1 | 2020-01-21 |    4000 |
++---------------+------------+---------+
+3 rows in set (0.00 sec)
+
+============================================================================================================================
+
+23.using Having clause in Query
+mysql> select count(custid),city from customers
+    -> group by city
+    -> having count(custid) > 2;
++---------------+--------+
+| count(custid) | city   |
++---------------+--------+
+|             6 | Barmer |
+|             4 | Jaipur |
+|             3 | Pune   |
++---------------+--------+
+3 rows in set (0.02 sec)
+
+
+mysql> select count(custid),city from customers
+    -> group by city
+    -> having count(custid) >= 1;
++---------------+-----------+
+| count(custid) | city      |
++---------------+-----------+
+|             1 | NULL      |
+|             1 | Banswada  |
+|             6 | Barmer    |
+|             1 | Bikaner   |
+|             1 | Delhi     |
+|             4 | Jaipur    |
+|             1 | Jaisalmer |
+|             1 | Kota      |
+|             1 | Mumbai    |
+|             3 | Pune      |
+|             1 | Udaipur   |
++---------------+-----------+
+11 rows in set (0.00 sec)
+
+
+mysql> select orderid,sum(qty) from orderdetails
+    -> group by orderid
+    -> having sum(qty) > 10;
++---------+----------+
+| orderid | sum(qty) |
++---------+----------+
+|       1 |       12 |
+|       4 |      120 |
+|       5 |      100 |
++---------+----------+
+3 rows in set (0.02 sec)
+
+============================================================================================================================
+============================================================================================================================
+
+24.using Aliases in Query
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
