@@ -707,6 +707,377 @@ mysql> select orderid,sum(qty) from orderdetails
 ============================================================================================================================
 
 24.using Aliases in Query
+mysql> select custid as ID,Firstname as Customer from customers;
++----+---------------+
+| ID | Customer      |
++----+---------------+
+|  0 | NULL          |
+|  1 | Narendra      |
+|  2 | Surendra      |
+|  3 | Tejendra      |
+|  4 | Ravi          |
+|  5 | Hari          |
+|  6 | Jaypal Singh  |
+|  7 | Aayuwan       |
+|  8 | Sharwan Singh |
+|  9 | Mag Singh     |
+| 10 | Hemant        |
+| 11 | Karmveer      |
+| 12 | Yash          |
+| 13 | Veer          |
+| 14 | Manendra      |
+| 15 | Khangar       |
+| 16 | Rajendra      |
+| 17 | Deependra     |
+| 18 | Jitendra      |
+| 19 | Bhupendra     |
+| 20 | Manjeet       |
++----+---------------+
+21 rows in set (0.00 sec)
+
+
+
+mysql> select custid as ID,concat(firstname,' ',lastname) as Customer_Name from customers;
++----+----------------------+
+| ID | Customer_Name        |
++----+----------------------+
+|  0 | NULL                 |
+|  1 | Narendra Singh       |
+|  2 | Surendra Singh       |
+|  3 | Tejendra Singh       |
+|  4 | Ravi Singh           |
+|  5 | Hari Singh           |
+|  6 | Jaypal Singh Dhandhu |
+|  7 | Aayuwan  Singh       |
+|  8 | Sharwan Singh D      |
+|  9 | Mag Singh Booth      |
+| 10 | Hemant  Kumar        |
+| 11 | Karmveer D           |
+| 12 | Yash Veer            |
+| 13 | Veer Y               |
+| 14 | Manendra S           |
+| 15 | Khangar Singh        |
+| 16 | Rajendra Singh       |
+| 17 | Deependra Jhala      |
+| 18 | Jitendra P           |
+| 19 | Bhupendra T          |
+| 20 | Manjeet S            |
++----+----------------------+
+21 rows in set (0.00 sec)
+
+
+
+mysql> select OrderID,sum(Qty) As QuantityOrdered from orderdetails
+    -> group by OrderID
+    -> having sum(Qty) > 5;
++---------+-----------------+
+| OrderID | QuantityOrdered |
++---------+-----------------+
+|       1 |              12 |
+|       2 |              10 |
+|       4 |             120 |
+|       5 |             100 |
++---------+-----------------+
+4 rows in set (0.00 sec)
+
+============================================================================================================================
+
+25.using joins in Query and types of Joins
+
+There are different types of joins available in SQL −
+
+INNER JOIN − returns rows when there is a match in both tables.
+
+LEFT JOIN − returns all rows from the left table, even if there are no matches in the right table.
+
+RIGHT JOIN − returns all rows from the right table, even if there are no matches in the left table.
+
+FULL JOIN − returns rows when there is a match in one of the tables.
+
+SELF JOIN − is used to join a table to itself as if the table were two tables, temporarily renaming at least one table in the SQL statement.
+
+CARTESIAN JOIN − returns the Cartesian product of the sets of records from the two or more joined tables.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+mysql> select FirstName,City,OrderDate,BillAmt
+    -> from customers
+    -> INNER JOIN orders on customers.Custid = orders.custid;
++-----------+-----------+------------+---------+
+| FirstName | City      | OrderDate  | BillAmt |
++-----------+-----------+------------+---------+
+| Narendra  | Barmer    | 2019-12-22 |    2000 |
+| Surendra  | Barmer    | 2020-01-20 |    3000 |
+| Tejendra  | Barmer    | 2020-01-21 |    4000 |
+| Ravi      | Barmer    | 2020-01-22 |    5000 |
+| Hari      | Jaisalmer | 2020-01-23 |    6000 |
++-----------+-----------+------------+---------+
+5 rows in set (0.00 sec)
+
+
+mysql> select FirstName,City,OrderDate,BillAmt from customers LEFT OUTER JOIN orders on customers.custid = orders.custid;
++---------------+-----------+------------+---------+
+| FirstName     | City      | OrderDate  | BillAmt |
++---------------+-----------+------------+---------+
+| NULL          | NULL      | NULL       |    NULL |
+| Narendra      | Barmer    | 2019-12-22 |    2000 |
+| Surendra      | Barmer    | 2020-01-20 |    3000 |
+| Tejendra      | Barmer    | 2020-01-21 |    4000 |
+| Ravi          | Barmer    | 2020-01-22 |    5000 |
+| Hari          | Jaisalmer | 2020-01-23 |    6000 |
+| Jaypal Singh  | Udaipur   | NULL       |    NULL |
+| Aayuwan       | barmer    | NULL       |    NULL |
+| Sharwan Singh | Pune      | NULL       |    NULL |
+| Mag Singh     | Barmer    | NULL       |    NULL |
+| Hemant        | Jaipur    | NULL       |    NULL |
+| Karmveer      | Jaipur    | NULL       |    NULL |
+| Yash          | Bikaner   | NULL       |    NULL |
+| Veer          | Kota      | NULL       |    NULL |
+| Manendra      | Pune      | NULL       |    NULL |
+| Khangar       | Pune      | NULL       |    NULL |
+| Rajendra      | Mumbai    | NULL       |    NULL |
+| Deependra     | Banswada  | NULL       |    NULL |
+| Jitendra      | Jaipur    | NULL       |    NULL |
+| Bhupendra     | Jaipur    | NULL       |    NULL |
+| Manjeet       | Delhi     | NULL       |    NULL |
++---------------+-----------+------------+---------+
+21 rows in set (0.06 sec)
+
+mysql> select FirstName,City,OrderDate,BillAmt from customers Right OUTER JOIN orders on customers.custid = orders.custid;
++-----------+-----------+------------+---------+
+| FirstName | City      | OrderDate  | BillAmt |
++-----------+-----------+------------+---------+
+| Narendra  | Barmer    | 2019-12-22 |    2000 |
+| Surendra  | Barmer    | 2020-01-20 |    3000 |
+| Tejendra  | Barmer    | 2020-01-21 |    4000 |
+| Ravi      | Barmer    | 2020-01-22 |    5000 |
+| Hari      | Jaisalmer | 2020-01-23 |    6000 |
++-----------+-----------+------------+---------+
+5 rows in set (0.00 sec)
+
+
+mysql> select customers.CustID ,FirstName,City,OrderDate,BillAmt from customers INNER JOIN orders on customers.custid = orders.custid;
++--------+-----------+-----------+------------+---------+
+| CustID | FirstName | City      | OrderDate  | BillAmt |
++--------+-----------+-----------+------------+---------+
+|      1 | Narendra  | Barmer    | 2019-12-22 |    2000 |
+|      2 | Surendra  | Barmer    | 2020-01-20 |    3000 |
+|      3 | Tejendra  | Barmer    | 2020-01-21 |    4000 |
+|      4 | Ravi      | Barmer    | 2020-01-22 |    5000 |
+|      5 | Hari      | Jaisalmer | 2020-01-23 |    6000 |
++--------+-----------+-----------+------------+---------+
+5 rows in set (0.06 sec)
+
+
+mysql> select * from customers INNER JOIN orders on customers.custid = orders.custid ORDER BY customers.custid;
++--------+-----------+----------+-----------+------------+---------+--------+------------+---------+
+| CustID | FirstName | LastName | City      | Phone      | OrderID | CustID | OrderDate  | BillAmt |
++--------+-----------+----------+-----------+------------+---------+--------+------------+---------+
+|      1 | Narendra  | Singh    | Barmer    | 2147483647 |       1 |      1 | 2019-12-22 |    2000 |
+|      2 | Surendra  | Singh    | Barmer    | 2147483647 |       2 |      2 | 2020-01-20 |    3000 |
+|      3 | Tejendra  | Singh    | Barmer    | 2147483647 |       3 |      3 | 2020-01-21 |    4000 |
+|      4 | Ravi      | Singh    | Barmer    |   89897656 |       4 |      4 | 2020-01-22 |    5000 |
+|      5 | Hari      | Singh    | Jaisalmer | 2147483647 |       5 |      5 | 2020-01-23 |    6000 |
++--------+-----------+----------+-----------+------------+---------+--------+------------+---------+
+5 rows in set (0.00 sec)
+
+
+
+mysql> select customers.FirstName ,orders.OrderID
+    -> from customers
+    -> LEFT JOIN orders ON customers.custid = orders.custid
+    -> ORDER BY customers.Firstname;
++---------------+---------+
+| FirstName     | OrderID |
++---------------+---------+
+| NULL          |    NULL |
+| Aayuwan       |    NULL |
+| Bhupendra     |    NULL |
+| Deependra     |    NULL |
+| Hari          |       5 |
+| Hemant        |    NULL |
+| Jaypal Singh  |    NULL |
+| Jitendra      |    NULL |
+| Karmveer      |    NULL |
+| Khangar       |    NULL |
+| Mag Singh     |    NULL |
+| Manendra      |    NULL |
+| Manjeet       |    NULL |
+| Narendra      |       1 |
+| Rajendra      |    NULL |
+| Ravi          |       4 |
+| Sharwan Singh |    NULL |
+| Surendra      |       2 |
+| Tejendra      |       3 |
+| Veer          |    NULL |
+| Yash          |    NULL |
++---------------+---------+
+21 rows in set (0.00 sec)
+
+
+
+mysql> select * from customers
+    -> LEFT JOIN orders ON customers.custid = orders.custid
+    -> ORDER BY customers.Firstname;
++--------+---------------+----------+-----------+------------+---------+--------+------------+---------+
+| CustID | FirstName     | LastName | City      | Phone      | OrderID | CustID | OrderDate  | BillAmt |
++--------+---------------+----------+-----------+------------+---------+--------+------------+---------+
+|      0 | NULL          |          | NULL      |       NULL |    NULL |   NULL | NULL       |    NULL |
+|      7 | Aayuwan       | Singh    | barmer    |       NULL |    NULL |   NULL | NULL       |    NULL |
+|     19 | Bhupendra     | T        | Jaipur    |    9866757 |    NULL |   NULL | NULL       |    NULL |
+|     17 | Deependra     | Jhala    | Banswada  |     967764 |    NULL |   NULL | NULL       |    NULL |
+|      5 | Hari          | Singh    | Jaisalmer | 2147483647 |       5 |      5 | 2020-01-23 |    6000 |
+|     10 | Hemant        | Kumar    | Jaipur    |  876897698 |    NULL |   NULL | NULL       |    NULL |
+|      6 | Jaypal Singh  | Dhandhu  | Udaipur   | 2147483647 |    NULL |   NULL | NULL       |    NULL |
+|     18 | Jitendra      | P        | Jaipur    |     675877 |    NULL |   NULL | NULL       |    NULL |
+|     11 | Karmveer      | D        | Jaipur    |   67757465 |    NULL |   NULL | NULL       |    NULL |
+|     15 | Khangar       | Singh    | Pune      |     785876 |    NULL |   NULL | NULL       |    NULL |
+|      9 | Mag Singh     | Booth    | Barmer    |  983838383 |    NULL |   NULL | NULL       |    NULL |
+|     14 | Manendra      | S        | Pune      |    7868976 |    NULL |   NULL | NULL       |    NULL |
+|     20 | Manjeet       | S        | Delhi     |      67587 |    NULL |   NULL | NULL       |    NULL |
+|      1 | Narendra      | Singh    | Barmer    | 2147483647 |       1 |      1 | 2019-12-22 |    2000 |
+|     16 | Rajendra      | Singh    | Mumbai    |     786876 |    NULL |   NULL | NULL       |    NULL |
+|      4 | Ravi          | Singh    | Barmer    |   89897656 |       4 |      4 | 2020-01-22 |    5000 |
+|      8 | Sharwan Singh | D        | Pune      | 2147483647 |    NULL |   NULL | NULL       |    NULL |
+|      2 | Surendra      | Singh    | Barmer    | 2147483647 |       2 |      2 | 2020-01-20 |    3000 |
+|      3 | Tejendra      | Singh    | Barmer    | 2147483647 |       3 |      3 | 2020-01-21 |    4000 |
+|     13 | Veer          | Y        | Kota      |    6755665 |    NULL |   NULL | NULL       |    NULL |
+|     12 | Yash          | Veer     | Bikaner   |    6576575 |    NULL |   NULL | NULL       |    NULL |
++--------+---------------+----------+-----------+------------+---------+--------+------------+---------+
+21 rows in set (0.00 sec)
+
+
+
+mysql> select orders.OrderID,FirstName,LastName
+    -> from customers
+    -> RIGHT JOIN orders ON orders.custid = customers.custid
+    -> ORDER By orders.orderID;
++---------+-----------+----------+
+| OrderID | FirstName | LastName |
++---------+-----------+----------+
+|       1 | Narendra  | Singh    |
+|       2 | Surendra  | Singh    |
+|       3 | Tejendra  | Singh    |
+|       4 | Ravi      | Singh    |
+|       5 | Hari      | Singh    |
++---------+-----------+----------+
+5 rows in set (0.00 sec)
+
+
+============================================================================================================================
+
+26.using union in Query
+
+mysql> select CustID from customers
+    -> UNION
+    -> select CustID from orders;
++--------+
+| CustID |
++--------+
+|      0 |
+|      1 |
+|      2 |
+|      3 |
+|      4 |
+|      5 |
+|      6 |
+|      7 |
+|      8 |
+|      9 |
+|     10 |
+|     11 |
+|     12 |
+|     13 |
+|     14 |
+|     15 |
+|     16 |
+|     17 |
+|     18 |
+|     19 |
+|     20 |
++--------+
+21 rows in set (0.00 sec)
+
+
+
+mysql> select CustID from customers
+    -> UNION All
+    -> select CustID from orders;
++--------+
+| CustID |
++--------+
+|      0 |
+|      1 |
+|      2 |
+|      3 |
+|      4 |
+|      5 |
+|      6 |
+|      7 |
+|      8 |
+|      9 |
+|     10 |
+|     11 |
+|     12 |
+|     13 |
+|     14 |
+|     15 |
+|     16 |
+|     17 |
+|     18 |
+|     19 |
+|     20 |
+|      1 |
+|      2 |
+|      3 |
+|      4 |
+|      5 |
++--------+
+26 rows in set (0.06 sec)
+
+
+============================================================================================================================
+
+27.using Views in Query(View are looks like table and used can be as table but view are not table)
+mysql> create view Customers_Name AS select FirstName,Lastname from customers;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> select * from customers_name;
++---------------+----------+
+| FirstName     | Lastname |
++---------------+----------+
+| NULL          |          |
+| Narendra      | Singh    |
+| Surendra      | Singh    |
+| Tejendra      | Singh    |
+| Ravi          | Singh    |
+| Hari          | Singh    |
+| Jaypal Singh  | Dhandhu  |
+| Aayuwan       | Singh    |
+| Sharwan Singh | D        |
+| Mag Singh     | Booth    |
+| Hemant        | Kumar    |
+| Karmveer      | D        |
+| Yash          | Veer     |
+| Veer          | Y        |
+| Manendra      | S        |
+| Khangar       | Singh    |
+| Rajendra      | Singh    |
+| Deependra     | Jhala    |
+| Jitendra      | P        |
+| Bhupendra     | T        |
+| Manjeet       | S        |
++---------------+----------+
+21 rows in set (0.01 sec)
+
+
+
+mysql> drop view Customers_name;
+Query OK, 0 rows affected (0.00 sec)
+
+
+mysql> select * from customers_name;
+ERROR 1146 (42S02): Table 'mysales.customers_name' doesn't exist
 
 
 
