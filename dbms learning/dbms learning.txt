@@ -1079,12 +1079,80 @@ Query OK, 0 rows affected (0.00 sec)
 mysql> select * from customers_name;
 ERROR 1146 (42S02): Table 'mysales.customers_name' doesn't exist
 
+============================================================================================================================
+
+28.using Subqueries in Query
+mysql> select * from customers where custid IN(select custid from customers where city="Mumbai" );
++--------+-----------+----------+--------+--------+
+| CustID | FirstName | LastName | City   | Phone  |
++--------+-----------+----------+--------+--------+
+|     16 | Rajendra  | Singh    | Mumbai | 786876 |
++--------+-----------+----------+--------+--------+
+1 row in set (0.00 sec)
 
 
 
+mysql> select * from customers where custid IN(select custid from orders where billamt > 2000);
++--------+-----------+----------+-----------+------------+
+| CustID | FirstName | LastName | City      | Phone      |
++--------+-----------+----------+-----------+------------+
+|      2 | Surendra  | Singh    | Barmer    | 2147483647 |
+|      3 | Tejendra  | Singh    | Barmer    | 2147483647 |
+|      4 | Ravi      | Singh    | Barmer    |   89897656 |
+|      5 | Hari      | Singh    | Jaisalmer | 2147483647 |
++--------+-----------+----------+-----------+------------+
 
 
+mysql> select * from customers where custid IN(select custid from orders where orderdate='2020-01-21');
++--------+-----------+----------+--------+------------+
+| CustID | FirstName | LastName | City   | Phone      |
++--------+-----------+----------+--------+------------+
+|      3 | Tejendra  | Singh    | Barmer | 2147483647 |
++--------+-----------+----------+--------+------------+
+1 row in set (0.00 sec)
 
+
+mysql> select * from customers where custid IN(select custid from orders where orderid in(select orderid from orderdetails where qty > 10));
++--------+-----------+----------+-----------+------------+
+| CustID | FirstName | LastName | City      | Phone      |
++--------+-----------+----------+-----------+------------+
+|      1 | Narendra  | Singh    | Barmer    | 2147483647 |
+|      4 | Ravi      | Singh    | Barmer    |   89897656 |
+|      5 | Hari      | Singh    | Jaisalmer | 2147483647 |
++--------+-----------+----------+-----------+------------+
+3 rows in set (0.00 sec)
+
+============================================================================================================================
+
+29.using Subqueries with view in Query
+mysql> create view BigOrderQty AS select OrderID from orderdetails where qty > 10;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from BigorderQty;
++---------+
+| OrderID |
++---------+
+|       1 |
+|       4 |
+|       5 |
++---------+
+3 rows in set (0.01 sec)
+
+
+mysql> select * from customers where custid IN(select custid from orders where orderid in(select orderid from BigOrderQty));
++--------+-----------+----------+-----------+------------+
+| CustID | FirstName | LastName | City      | Phone      |
++--------+-----------+----------+-----------+------------+
+|      1 | Narendra  | Singh    | Barmer    | 2147483647 |
+|      4 | Ravi      | Singh    | Barmer    |   89897656 |
+|      5 | Hari      | Singh    | Jaisalmer | 2147483647 |
++--------+-----------+----------+-----------+------------+
+3 rows in set (0.00 sec)
+
+============================================================================================================================
+============================================================================================================================ 
+|Cloud SQL |
++==========+
 
 
 
