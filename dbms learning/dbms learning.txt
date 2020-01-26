@@ -1,4 +1,4 @@
-
+SQL Learning 
 1.CMD SQL - go to bin C:\Windows\System32\cmd.exe
 ============================================================================================================================
 2.Type Below command and user name and password to login in sql 
