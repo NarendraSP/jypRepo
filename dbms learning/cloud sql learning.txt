@@ -4,4 +4,97 @@
 
 Exploring Cloud SQL Instance parameters
 
+Google Cloud dashboard has Overview -shows graphs of SQL related like memory uses,CPU uses etc. and other menues like users,databases,connections,backups,replica,operations etc.
+
+=======================================================================================================================
+Edit Cloud SQL Instances :
+
+We can not change Instance info=Instance ID and Region but can change Zone of Instances.
+
+Instance info::
+Instance ID,Region,Zone
+Database version:MySQL 5.7
+
+================================================================================================
+Instance info
+Instance ID
+Choice is permanent. Use lowercase letters, numbers and hyphens. Start with a letter.
+
+mysql
+Location 
+For better performance, keep your data close to the services that need it.
+
+Region
+ 
+Zone
+Database version
+MySQL 5.7
+===================================================================================================
+Configuration options:
+1.Connectivity : Public IP or Private IP
+2.Machine type and storage:Storage capacity
+3.Auto backups and high availability
+4.Flags
+5.Maintenance
+6.Labels
+
+===================================================================================================
+Cloning Cloud SQL Instance:Clone make a new copy of Instance as completely seprate from source Instance.
+
+A clone is a separate, independent copy of a master instance, and assists point-in-time recovery. Your clone will copy all data and settings from instance mysql (Second Generation master).
+
+The most recent state of this instance will be cloned.
+
+===================================================================================================
+Starting and Stoping Instances : Just click Start or Stop. But used this very rarely on running Instances.
+===================================================================================================
+Delete Instances : Delete instance?
+Deleting an instance permanently removes the instance and all its data. This change will affect applications that connect to mysql-clone and cannot be reversed.
+
+Confirm deletion by typing the instance ID below: mysql-clone
+===================================================================================================
+Configuring database flags:Cloud SQL flags are applied to the database server. When you add or modify these flags, your instance will automatically restart. You cannot modify flags on failover replicas.
+
+This page describes how to configure database flags for Cloud SQL, and lists which flags you can set for your instance. You use database flags to adjust MySQL parameters and options, to configure and tune your instance.
+
+The flags supported in Cloud SQL are the most commonly requested flags for MySQL.
+
+For a given flag, Cloud SQL might support a different range than the corresponding MySQL parameter or option.
+
+Flags Examples: event_scheduler,auto_increment_increment etc.
+
+===================================================================================================
+Labelling Cloud SQL Instances:Labels help to organise your instances. For example, you can organise labels by cost centre or environment. Labels are also included in your bill, so you can see the distribution of costs across your labels.
+
+To manage your labels, click Show Info Panel in the top-right corner.
+
+
+===================================================================================================
+Connecting to Cloud SQL Instance from Compute Engine using IP:Compute Engine --->VM Instance -->
+
+Create VM Instance-->Compute Engine lets you use virtual machines that run on Google's infrastructure. Create micro-VMs or larger instances running Debian, Windows or other standard images. Create your first VM instance, import it using a migration service or try the quickstart to build a sample app.
+
+
+Open Instance CMD:
+XYZ@instance-1:~$ sudo apt-get update
+XYZ@instance-1:~$ sudo apt-get upgrade
+XYZ@instance-1:~$ sudo apt-get install mysql-client
+XYZ@instance-1:
+XYZ@instance-1:
+XYZ@instance-1:
+XYZ@instance-1:
+XYZ@instance-1:
+XYZ@instance-1:
+
+
+
+
+
+
+
+
+
+
+
+
 
