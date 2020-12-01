@@ -2,6 +2,6 @@
 
 
 <p aling="center">
-  Visiter Counter<br><br>
+  Visitor Counter<br><br>
 <img src="https://profile-counter.glitch.me/NarendraSP/count.svg" />
 </p>
